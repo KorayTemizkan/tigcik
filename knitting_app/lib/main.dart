@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:knitting_app/controllers/product_provider.dart';
 import 'package:knitting_app/controllers/router.dart';
-
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ProductProvider())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

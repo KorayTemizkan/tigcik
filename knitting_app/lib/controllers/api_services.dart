@@ -1,0 +1,41 @@
+import 'package:http/http.dart' as http;
+import 'package:knitting_app/models/how_to.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:knitting_app/models/product_model.dart';
+
+Future<List<ProductModel>> fetchProducts() async {
+  final response = await http.get(
+    Uri.parse(
+      'https://raw.githubusercontent.com/kullanici/repo/main/products.json',
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    final List<dynamic> jsonList = jsonDecode(response.body);
+
+    return jsonList.map((item) => ProductModel.fromMap(item)).toList();
+  } else {
+    throw Exception(
+      'Failed to load products. Code: ${response.statusCode}, Reason: ${response.reasonPhrase}',
+    );
+  }
+}
+
+Future<List<HowTo>> fetchHowTos() async {
+  final response = await http.get(
+    Uri.parse(
+      'https://raw.githubusercontent.com/kullanici/repo/main/products.json',
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    final List<dynamic> jsonList = jsonDecode(response.body);
+
+    return jsonList.map((item) => HowTo.fromMap(item)).toList();
+  } else {
+    throw Exception(
+      'Failed to load howtos. Code: ${response.statusCode}, Reason: ${response.reasonPhrase}',
+    );
+  }
+}

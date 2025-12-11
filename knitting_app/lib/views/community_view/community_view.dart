@@ -10,6 +10,13 @@ class CommunityView extends StatefulWidget {
 class _CommunityViewState extends State<CommunityView> {
   @override
   Widget build(BuildContext context) {
-    return Container();
-  }
+  return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            Text('community_view'),
+          ],
+        ),
+      ),
+    );  }
 }

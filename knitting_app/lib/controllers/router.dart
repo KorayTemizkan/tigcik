@@ -4,7 +4,8 @@ import 'package:knitting_app/controllers/app_view.dart';
 import 'package:knitting_app/views/community_view/community_view.dart';
 import 'package:knitting_app/views/feed_view/feed_view.dart';
 import 'package:knitting_app/views/profile_view/profile_view.dart';
-import 'package:knitting_app/views/search_view/search_view.dart';
+import 'package:knitting_app/views/explore_view/explore_view.dart';
+import 'package:knitting_app/views/settings_view/settings_view.dart';
 
 // Tüm uygulama geçişleri için tek bir navigator anahtarı oluşturuyoruz.
 final _routerKey = GlobalKey<NavigatorState>();
@@ -22,16 +23,23 @@ class AppRoutes {
 }
 
 final router = GoRouter(
-  navigatorKey: _routerKey, // uygulamanın herhangi bir yerinden navigatorKey.currentState üzerinden navigator'e erişme imkanı verir
+  navigatorKey:
+      _routerKey, // uygulamanın herhangi bir yerinden navigatorKey.currentState üzerinden navigator'e erişme imkanı verir
   initialLocation: AppRoutes.feed,
 
-  routes: [_bottomBar()], // bottom bar ile alt barı tek seferde hallediyoruz
+  routes: [
+    _bottomBar(),
+
+    GoRoute(
+      path: AppRoutes.settings,
+      builder: (context, state) => SettingsView(),
+    ),
+  ], // bottom bar ile alt barı tek seferde hallediyoruz
 );
 
 StatefulShellRoute _bottomBar() {
   // her bir sekme için bir statefulshellbranch yaratıyor ve bunları indexlenmiş stack olarak tutuyor, yani sekmeler aynı anda çalışıyor ama arka planda bekliyor.
   return StatefulShellRoute.indexedStack(
-    
     builder: (context, state, navigationShell) =>
         AppView(navigationShell: navigationShell),
 
@@ -49,7 +57,7 @@ StatefulShellRoute _bottomBar() {
         routes: [
           GoRoute(
             path: AppRoutes.search,
-            builder: (context, state) => const SearchView(),
+            builder: (context, state) => const ExploreView(),
           ),
         ],
       ),

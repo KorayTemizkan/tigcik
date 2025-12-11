@@ -10,6 +10,16 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
-    return Container();
-  }
+  return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            Text('profile_view'),
+            Text('kullanıcı kartı'),
+            Text('kaydedilenler'),
+            Text('beğenilenler'),
+          ],
+        ),
+      ),
+    );  }
 }
