@@ -26,6 +26,7 @@ KULLANILAN TEKNOLOJILER
 - just_audio (arka plan müziği)
 - youtube_player_flutter (dahili video oynatıcı)
 - GitHub JSON (uzaktan veri kaynağı)
+- Firebase Authentication + Storage + Firestore
 
 
 
