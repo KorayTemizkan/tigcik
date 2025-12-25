@@ -26,8 +26,6 @@ class _SettingsViewState extends State<SettingsView> {
 
       body: Column(
         children: [
-          Text('giris yap / kayit ol'),
-    
           Expanded(
             child: ListView(
               children: [
@@ -52,6 +50,20 @@ class _SettingsViewState extends State<SettingsView> {
                   title: const Text('Bize sor!'),
                   onTap: () {
                     context.go('/settings/sendUs');
+                  },
+                ),
+
+                ListTile(
+                  title: const Text('Giris yap!'),
+                  onTap: () {
+                    context.go('/settings/signIn');
+                  },
+                ),
+
+                ListTile(
+                  title: const Text('Kaydol'),
+                  onTap: () {
+                    context.go('/settings/register');
                   },
                 ),
 

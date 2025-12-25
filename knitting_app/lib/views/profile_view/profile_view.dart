@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/product_provider.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
 import 'package:knitting_app/models/product_model.dart';
 import 'package:provider/provider.dart';
+import 'package:knitting_app/controllers/providers/auth_provider.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -41,17 +43,20 @@ class _ProfileViewState extends State<ProfileView> {
     required List<int> savedIds,
     required List<ProductModel> products,
   }) {
-    final productMap = {for (final p in products) p.id: p}; // products listesini mape çevir
+    final productMap = {
+      for (final p in products) p.id: p,
+    }; // products listesini mape çevir
 
     return savedIds
         .map((id) => productMap[id])
         .whereType<ProductModel>()
         .toList();
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
     final products = context.watch<ProductProvider>().products;
+    final auth = context.watch<AuthProviderFirebase>();
 
     if (products.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -67,35 +72,47 @@ class _ProfileViewState extends State<ProfileView> {
       body: Center(
         child: Column(
           children: [
-            Text('profile_view'),
             Text('kullanıcı kartı'),
-            Text('kaydedilenler'),
             Text('beğenilenler'),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: savedProducts.length,
-                itemBuilder: (context, index) {
-                  final p = savedProducts[index];
+            Text(auth.email ?? 'Giris yapilmadi'),
+            Text(auth.uid ?? 'ID yok'),
 
-                  return Card(
-                    child: ListTile(
-                      leading: Image.network(
-                        p.imageUrl,
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
-                      ),
-
-                      title: Text(p.title),
-                      subtitle: Text("${p.difficulty}, ${p.estimatedHour}"),
-                    ),
-                  );
-                },
-              ),
+            ElevatedButton(
+              onPressed: () async {
+                auth.signOut();
+              },
+              child: Text('Cikis yap!'),
             ),
+
+            SavedProducts(savedProducts),
           ],
         ),
+      ),
+    );
+  }
+
+  Expanded SavedProducts(List<ProductModel> savedProducts) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: savedProducts.length,
+        itemBuilder: (context, index) {
+          final p = savedProducts[index];
+
+          return Card(
+            child: ListTile(
+              leading: Image.network(
+                p.imageUrl,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
+
+              title: Text(p.title),
+              subtitle: Text("${p.difficulty}, ${p.estimatedHour}"),
+            ),
+          );
+        },
       ),
     );
   }

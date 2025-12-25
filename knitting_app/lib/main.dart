@@ -10,12 +10,12 @@ import 'package:knitting_app/controllers/shared_preferences.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:knitting_app/controllers/providers/auth_provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Firebase ayarlamaları burada yapılır
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await FirebaseAuth.instance.signOut(); bunu kontrol edelim belki gerekmez
 
   /*
 Shared preferences diskten her çağrıda okuma yapmaz, uygulama açılırken diskteki XML/JSON dosyasını bir kere okur
@@ -41,7 +41,7 @@ prefs.getStringList(...) gibi çağrılar yaptığında bellekteki Map'ten okur 
           create: (_) => SharedPreferencesProvider(appPreferences),
         ),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProviderFirebase()),
       ],
       child: const MyApp(),
     ),

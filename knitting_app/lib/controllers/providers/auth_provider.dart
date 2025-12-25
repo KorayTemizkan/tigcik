@@ -1,20 +1,64 @@
+// Burası mantıksal bölüm, burada UI olmaz.
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AuthProvider extends ChangeNotifier {
+class AuthProviderFirebase extends ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   User? _user;
-
   User? get user => _user;
-  bool get isLoggedIn => _user != null;
+  String? get email => user?.email;
+  String? get uid => user?.uid;
+  bool _isLoggedIn = false;
+  bool get isLoggedIn => _isLoggedIn;
 
-  AuthProvider() {
-    FirebaseAuth.instance.authStateChanges().listen((user) {
+  AuthProviderFirebase() {
+    _auth.authStateChanges().listen((user) {
       _user = user;
       notifyListeners();
     });
   }
 
+  Future<void> register({
+    required String email,
+    required String password,
+  }) async {
+    await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  Future<bool> signIn({required String email, required String password}) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      _isLoggedIn = true;
+      return true;
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      return false;
+    }
+  }
+
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await _auth.signOut();
+  }
+
+  Future<void> deleteAccount({
+    required String email,
+    required String password,
+  }) async {
+    final credential = EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
+
+    await _user?.reauthenticateWithCredential(credential);
+    await _user?.delete();
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    await _user?.updatePassword(newPassword);
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:knitting_app/controllers/app_view.dart';
+import 'package:knitting_app/controllers/settings/user/register.dart';
+import 'package:knitting_app/controllers/settings/user/signIn.dart';
 import 'package:knitting_app/models/product_model.dart';
 import 'package:knitting_app/views/community_view/community_view.dart';
 import 'package:knitting_app/views/feed_view/feed_view.dart';
@@ -26,6 +28,8 @@ class AppRoutes {
   static const String settings = "/settings";
   static const String aboutUs = "/aboutUs";
   static const String sendUs = "/sendUs";
+  static const String signIn = '/signIn';
+  static const String register = '/register';
 
   static const String product = 'product';
 }
@@ -52,6 +56,15 @@ final router = GoRouter(
           path: AppRoutes.sendUs,
           builder: (context, state) => SendUsView(),
         ),
+
+        GoRoute(
+          path: AppRoutes.signIn,
+          builder: (context, state) => SignInView(),
+        ),
+
+        GoRoute(path: AppRoutes.register,
+        builder: (context, state) => RegisterView(),
+        )
       ],
     ),
   ], // bottom bar ile alt barı tek seferde hallediyoruz

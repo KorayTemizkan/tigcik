@@ -4,21 +4,21 @@ import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class SignInView extends StatefulWidget {
+  const SignInView({super.key});
 
   @override
-  State<RegisterView> createState() => _MyWidgetState();
+  State<SignInView> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<RegisterView> {
+class _MyWidgetState extends State<SignInView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'Tığcık - Kaydol'),
+      appBar: AppBarWidget(title: 'Tığcık - Giriş Yap'),
 
       body: Column(
         children: [
@@ -55,7 +55,14 @@ class _MyWidgetState extends State<RegisterView> {
                 context.pop(context);
               }
             },
-            child: const Text('Kaydol'),
+            child: const Text('Login'),
+          ),
+
+          ElevatedButton(
+            onPressed: () {
+              Text('Not yet! Forget Password');
+            },
+            child: const Text('Forget Password'),
           ),
         ],
       ),
