@@ -46,13 +46,13 @@ class _MyWidgetState extends State<RegisterView> {
 
           ElevatedButton(
             onPressed: () async {
-              bool result = await context.read<AuthProviderFirebase>().signIn(
+              bool result = await context.read<AuthProviderFirebase>().register(
                 email: emailController.text,
                 password: passwordController.text,
               );
 
               if (result) {
-                context.pop(context);
+                context.pop();
               }
             },
             child: const Text('Kaydol'),

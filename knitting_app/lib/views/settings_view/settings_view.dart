@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
+import 'package:knitting_app/controllers/router.dart';
 import 'package:knitting_app/controllers/settings/music_controller.dart';
 import 'package:knitting_app/controllers/providers/theme_provider.dart';
 import 'package:knitting_app/controllers/url_launcher_controller.dart';
-import 'package:knitting_app/views/settings_view/about_us_view.dart';
 import 'package:provider/provider.dart';
 
 class SettingsView extends StatefulWidget {
@@ -42,28 +42,28 @@ class _SettingsViewState extends State<SettingsView> {
                 ListTile(
                   title: const Text('Biz kimiz?'),
                   onTap: () {
-                    context.go('/settings/aboutUs');
+                    context.push('/settings/aboutUs');
                   },
                 ),
 
                 ListTile(
                   title: const Text('Bize sor!'),
                   onTap: () {
-                    context.go('/settings/sendUs');
+                    context.push('/settings/sendUs');
                   },
                 ),
 
                 ListTile(
                   title: const Text('Giris yap!'),
                   onTap: () {
-                    context.go('/settings/signIn');
+                    context.push('/settings/signIn');
                   },
                 ),
 
                 ListTile(
                   title: const Text('Kaydol'),
                   onTap: () {
-                    context.go('/settings/register');
+                    context.push('/settings/register');
                   },
                 ),
 

@@ -1,15 +1,21 @@
 // Burası mantıksal bölüm, burada UI olmaz.
+// UI kısımlarını kullanmamakla birlikte önceki Firebase projemin kodlarını kullandım
+// Diğer her şey aynı yani
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthProviderFirebase extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   User? _user;
   User? get user => _user;
+
   String? get email => user?.email;
   String? get uid => user?.uid;
+
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
@@ -20,14 +26,30 @@ class AuthProviderFirebase extends ChangeNotifier {
     });
   }
 
-  Future<void> register({
+  Future<bool> register({
     required String email,
     required String password,
   }) async {
-    await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      await _db.collection('users').doc(credential.user!.uid).set({
+        'email': email,
+        'displayName': '', // username yerine böyle kullan sektör standardı
+        'photoUrl': '',
+        'likedProducts': [],
+        'favoriteProducts': [],
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      return true;
+    } on FirebaseException catch (e) {
+      print(e.code);
+      return false;
+    }
   }
 
   Future<bool> signIn({required String email, required String password}) async {
@@ -60,5 +82,12 @@ class AuthProviderFirebase extends ChangeNotifier {
 
   Future<void> changePassword(String newPassword) async {
     await _user?.updatePassword(newPassword);
+  }
+
+  Future<void> syncToCloud() async {
+    await _db.collection("users").doc(uid).set({
+      //"favourites": favourites,
+      "updatedAt": FieldValue.serverTimestamp(),
+    });
   }
 }

@@ -1,16 +1,35 @@
 // UI ile ilgili bir sınıf olup veri yönetimini sağlar, AppPreferences kullanarak UI rebuild eder ve state yönetimi yapar
 
 // SOLID ilkelerini unutma, Single Responsibility. Hem veri işlemlerini yapıp hem arayüz yönetimi olmazdı. AppPreferences UI bağlı değil ve sadece veri yönetimi yapıyor. Burası ise Apppreferences ve UI arasındaki köprü
+import 'package:image_picker/image_picker.dart';
 import 'package:knitting_app/controllers/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class SharedPreferencesProvider extends ChangeNotifier {
   final AppPreferences _preferences;
+  final ImagePicker _picker = ImagePicker();
 
   SharedPreferencesProvider(this._preferences);
 
   int get streak => _preferences.streak;
   bool get darkTheme => _preferences.darkTheme;
+  String get profilePhoto => _preferences.profilePhoto;
+
+  Future<void> pickProfileImage() async {
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+    );
+
+    if (image == null) {
+      return;
+    }
+
+    final imagePath = image.path;
+
+    await _preferences.setProfilePhoto(imagePath);
+    notifyListeners();
+  }
 
   Future<void> toggleTheme() async {
     await _preferences.setDarkTheme(!darkTheme);
@@ -36,7 +55,7 @@ class SharedPreferencesProvider extends ChangeNotifier {
     await _preferences.setFirstOpeningAfterUpdate(false);
     notifyListeners();
   }
-  
+
   //********/
 
   Future<void> finishSaveCharacter(int characterId) async {
@@ -54,4 +73,4 @@ class SharedPreferencesProvider extends ChangeNotifier {
   }
 }
 
-// BEĞENMELERİ EKLEMEMİŞİM
+// BEĞENMELERİ EKLEMEMİŞİn

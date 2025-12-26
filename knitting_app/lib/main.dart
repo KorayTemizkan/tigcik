@@ -30,16 +30,14 @@ prefs.getStringList(...) gibi çağrılar yaptığında bellekteki Map'ten okur 
     preferences: sp,
   ); // kalıcı veri katmanı oluşturduk
 
-  final musicController = MusicController();
-  await musicController.init();
+  //final musicController = MusicController();
+ // await musicController.init();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProductProvider()),
-        ChangeNotifierProvider(
-          create: (_) => SharedPreferencesProvider(appPreferences),
-        ),
+        ChangeNotifierProvider(create: (_) => SharedPreferencesProvider(appPreferences)),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProviderFirebase()),
       ],

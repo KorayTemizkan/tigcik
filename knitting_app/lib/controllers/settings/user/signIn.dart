@@ -52,7 +52,7 @@ class _MyWidgetState extends State<SignInView> {
               );
 
               if (result) {
-                context.pop(context);
+                context.pop();
               }
             },
             child: const Text('Login'),

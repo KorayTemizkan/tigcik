@@ -1,5 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/product_provider.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
@@ -16,6 +18,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   List<int> savedIds = [];
+  String? photoPath;
 
   @override
   void initState() {
@@ -23,6 +26,8 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
     _loadSavedIds();
   }
+
+  // BU İKİ FONKSİYON İNTERNET OLMADIĞINDA BAĞLANMAK İÇİN
 
   Future<void> _loadSavedIds() async {
     final sharedPreferencesProvider = context.read<SharedPreferencesProvider>();
@@ -34,6 +39,7 @@ class _ProfileViewState extends State<ProfileView> {
           .map((e) => int.tryParse(e))
           .whereType<int>()
           .toList();
+      photoPath = sharedPreferencesProvider.profilePhoto;
     }); // setstate kullanıyoruz çünkü bu dosyadaki savedID's değeri değişecek
   }
 
@@ -75,8 +81,34 @@ class _ProfileViewState extends State<ProfileView> {
             Text('kullanıcı kartı'),
             Text('beğenilenler'),
 
+            SizedBox(height: 15),
+            Text('KULLANICI BILGILERI'),
             Text(auth.email ?? 'Giris yapilmadi'),
             Text(auth.uid ?? 'ID yok'),
+
+            photoPath != null
+                ? Image.file(
+                    File(photoPath!),
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                  )
+                : const CircleAvatar(radius: 60, child: Icon(Icons.person)),
+
+            ElevatedButton(
+              onPressed: () async {
+                await context
+                    .read<SharedPreferencesProvider>()
+                    .pickProfileImage();
+
+                setState(() {
+                  photoPath = context
+                      .read<SharedPreferencesProvider>()
+                      .profilePhoto;
+                });
+              },
+              child: const Text("Profil fotografi koy!"),
+            ),
 
             ElevatedButton(
               onPressed: () async {

@@ -17,8 +17,8 @@ class AppPreferences {
   static const String _firstOpenAfterUpdateKey = 'firstOpenAfterUpdate';
   static const String _darkThemeKey = 'darkTheme';
   static const String _languageKey = 'language';
+  static const String _profilePhotoKey = 'profilePhoto';
 
-  
   static const String _characterIdListKey = 'characterListKey';
 
   // READ
@@ -26,6 +26,7 @@ class AppPreferences {
       _preferences.getInt(_streakKey) ??
       0; // diskte streak değişkeni var mı bakıyor, yoksa null dönüyor, ?? 0 ilk kurulumda default değer
   bool get darkTheme => _preferences.getBool(_darkThemeKey) ?? false;
+  String get profilePhoto => _preferences.getString(_profilePhotoKey) ?? '';
 
   Future<void> setDarkTheme(bool value) async {
     await _preferences.setBool(_darkThemeKey, value);
@@ -51,15 +52,23 @@ class AppPreferences {
     await _preferences.setBool(_firstOpenAfterUpdateKey, value);
   }
 
+  Future<void> setProfilePhoto(String value) async {
+    await _preferences.setString(_profilePhotoKey, value);
+  }
+
   //********//
 
   Future<void> storeCharacters(List<String> characterList) async {
-    await _preferences.setStringList(_characterIdListKey, characterList); // komple listeyi diske yazar, sharedpreferences doğası
+    await _preferences.setStringList(
+      _characterIdListKey,
+      characterList,
+    ); // komple listeyi diske yazar, sharedpreferences doğası
   }
 
   Future<void> saveCharacter(int characterId) async {
     final characterIdList =
-        _preferences.getStringList(_characterIdListKey) ?? []; // ilk açılışta yeni liste oluşur, buradan sonra her şeyi ramdeki maptan okuyoruz. performans kaybı yok
+        _preferences.getStringList(_characterIdListKey) ??
+        []; // ilk açılışta yeni liste oluşur, buradan sonra her şeyi ramdeki maptan okuyoruz. performans kaybı yok
     characterIdList.add(characterId.toString());
     await storeCharacters(characterIdList);
   }
