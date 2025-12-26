@@ -52,6 +52,8 @@ class _SearchViewState extends State<ExploreView> {
               ),
             ),
 
+            // WP DESTEK HATTI EKLENECEK
+
             Text(
               'Fidan Öğretmenimizden rehberler',
             ), // Guides diye modelimiz var
