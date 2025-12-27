@@ -7,6 +7,7 @@ import 'package:knitting_app/models/how_to.dart';
 import 'package:knitting_app/models/product_model.dart';
 import 'package:knitting_app/views/community_view/community_view.dart';
 import 'package:knitting_app/views/feed_view/feed_view.dart';
+import 'package:knitting_app/views/first_open_view.dart';
 import 'package:knitting_app/views/model_views/howTo_view.dart';
 import 'package:knitting_app/views/model_views/product_view.dart';
 import 'package:knitting_app/views/profile_view/profile_view.dart';
@@ -14,6 +15,9 @@ import 'package:knitting_app/views/explore_view/explore_view.dart';
 import 'package:knitting_app/views/settings_view/about_us_view.dart';
 import 'package:knitting_app/views/settings_view/send_us_view.dart';
 import 'package:knitting_app/views/settings_view/settings_view.dart';
+import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
+import 'package:knitting_app/views/settings_view/sss_view.dart';
+import 'package:provider/provider.dart';
 
 // Tüm uygulama geçişleri için tek bir navigator anahtarı oluşturuyoruz.
 final _routerKey = GlobalKey<NavigatorState>();
@@ -32,6 +36,8 @@ class AppRoutes {
   static const String sendUs = "/sendUs";
   static const String signIn = '/signIn';
   static const String register = '/register';
+  static const String firstOpen = '/firstOpen';
+  static const String sss = '/sss';
 
   static const String product = 'product';
   static const String howTo = 'howTo';
@@ -40,9 +46,35 @@ class AppRoutes {
 final router = GoRouter(
   navigatorKey:
       _routerKey, // uygulamanın herhangi bir yerinden navigatorKey.currentState üzerinden navigator'e erişme imkanı verir
-  initialLocation: AppRoutes.feed,
+
+  redirect: (context, state) async {
+    final sharedPreferencesProvider = Provider.of<SharedPreferencesProvider>(
+      context,
+      listen: false,
+    );
+
+    final isFirstOpen = sharedPreferencesProvider.isFirstOpen;
+    final isOnboarding =
+        state.uri.path == AppRoutes.firstOpen; // şu anda sayfada mı konrolü
+
+    if (isFirstOpen && !isOnboarding) {
+      sharedPreferencesProvider.finishSetFirstOpening();
+      return AppRoutes.firstOpen;
+    }
+
+    if (!isFirstOpen && isOnboarding) {
+      return AppRoutes.feed;
+    }
+
+    return null;
+  },
 
   routes: [
+    GoRoute(
+      path: AppRoutes.firstOpen,
+      builder: (context, state) => FirstOpenView(),
+    ),
+
     _bottomBar(),
 
     GoRoute(
@@ -68,6 +100,11 @@ final router = GoRouter(
         GoRoute(
           path: AppRoutes.register,
           builder: (context, state) => RegisterView(),
+        ),
+
+        GoRoute(
+          path: AppRoutes.sss,
+          builder: (context, state) => SssView(),
         ),
       ],
     ),

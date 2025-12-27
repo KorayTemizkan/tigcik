@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/product_provider.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
@@ -104,6 +102,17 @@ class _ProfileViewState extends State<ProfileView> {
                 });
               },
               child: const Text("Profil fotografi koy!"),
+            ),
+
+            ElevatedButton(
+              onPressed: () async {
+                await context
+                    .read<SharedPreferencesProvider>()
+                    .finishSetFirstOpeningTrue();
+
+                setState(() {});
+              },
+              child: const Text("İlk girisi ac!"),
             ),
 
             ElevatedButton(

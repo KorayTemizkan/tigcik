@@ -12,7 +12,8 @@ class AppPreferences {
     : _preferences = preferences;
 
   // KEY
-  static const String _streakKey = 'streak'; // bunu dakika olarak tut, UI içinde x saat - y dk diye gösteririz
+  static const String _streakKey =
+      'streak'; // bunu dakika olarak tut, UI içinde x saat - y dk diye gösteririz
   static const String _firstOpenKey = 'firstOpen';
   static const String _firstOpenAfterUpdateKey = 'firstOpenAfterUpdate';
   static const String _darkThemeKey = 'darkTheme';
@@ -21,12 +22,19 @@ class AppPreferences {
 
   static const String _characterIdListKey = 'characterListKey';
 
+  static const String _knowledgeLevelKey = 'knowledgeLevelKey';
+
   // READ
   int get streak =>
       _preferences.getInt(_streakKey) ??
       0; // diskte streak değişkeni var mı bakıyor, yoksa null dönüyor, ?? 0 ilk kurulumda default değer
   bool get darkTheme => _preferences.getBool(_darkThemeKey) ?? false;
   String get profilePhoto => _preferences.getString(_profilePhotoKey) ?? '';
+  bool get isFirstOpen => _preferences.getBool(_firstOpenKey) ?? true;
+
+  Future<void> setKnowledgeLevel(String value) async {
+    await _preferences.setString(_knowledgeLevelKey, value);
+  }
 
   Future<void> setDarkTheme(bool value) async {
     await _preferences.setBool(_darkThemeKey, value);

@@ -14,6 +14,7 @@ class SharedPreferencesProvider extends ChangeNotifier {
   int get streak => _preferences.streak;
   bool get darkTheme => _preferences.darkTheme;
   String get profilePhoto => _preferences.profilePhoto;
+  bool get isFirstOpen => _preferences.isFirstOpen;
 
   Future<void> pickProfileImage() async {
     final XFile? image = await _picker.pickImage(
@@ -29,6 +30,10 @@ class SharedPreferencesProvider extends ChangeNotifier {
 
     await _preferences.setProfilePhoto(imagePath);
     notifyListeners();
+  }
+
+  Future<void> finishSetKnowledgeLevel(String value) async {
+    await _preferences.setKnowledgeLevel(value);
   }
 
   Future<void> toggleTheme() async {
@@ -48,6 +53,11 @@ class SharedPreferencesProvider extends ChangeNotifier {
 
   Future<void> finishSetFirstOpening() async {
     await _preferences.setFirstOpening(false);
+    notifyListeners();
+  }
+
+  Future<void> finishSetFirstOpeningTrue() async {
+    await _preferences.setFirstOpening(true);
     notifyListeners();
   }
 

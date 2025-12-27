@@ -12,6 +12,8 @@ import 'package:knitting_app/controllers/providers/shared_preferences_provider.d
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:knitting_app/controllers/providers/auth_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:knitting_app/controllers/providers/database_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,6 @@ void main() async {
 
   // Firebase ayarlamaları burada yapılır
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   /*
 Shared preferences diskten her çağrıda okuma yapmaz, uygulama açılırken diskteki XML/JSON dosyasını bir kere okur
 Belleğe yükler
@@ -46,6 +47,7 @@ prefs.getStringList(...) gibi çağrılar yaptığında bellekteki Map'ten okur 
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProviderFirebase()),
         ChangeNotifierProvider(create: (_) => HowToProvider()),
+        ChangeNotifierProvider(create: (_) => DatabaseProvider()),
       ],
       child: const MyApp(),
     ),
@@ -64,12 +66,14 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPersistentFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       context
           .read<ProductProvider>()
           .loadProducts(); // widget ağacı oluşturulduğunda sadece tek bir kere verileri internetten çekiyoruz ve yetiyor
 
       context.read<HowToProvider>().loadHowTos();
+
+      context.read<DatabaseProvider>().initDatabase();
     });
   }
 

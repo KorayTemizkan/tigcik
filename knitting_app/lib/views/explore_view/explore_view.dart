@@ -28,6 +28,7 @@ class _SearchViewState extends State<ExploreView> {
           children: [
             Text('ARAMA KISMINI WIDGET YAP VE ORTAK KULLANIMA AÇ, PRODUCTS İÇİN DE YANİ'),
             Text('SQFLİTE İLE YEREL DEPOLAMA VE FİREBASE İLE YEDEKLEME YAP'),
+            Text('UYGULAMA İÇİNDEN YAZMA SEÇENEĞİ DE EKLE'),
 
             TextField(
               controller: messageController,
