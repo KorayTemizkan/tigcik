@@ -11,9 +11,11 @@ import 'package:knitting_app/controllers/shared_preferences.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:knitting_app/controllers/providers/auth_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
 
   // Firebase ayarlamaları burada yapılır
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

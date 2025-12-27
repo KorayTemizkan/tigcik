@@ -18,7 +18,7 @@ class _MyWidgetState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'Tığcık - Giriş Yap'),
+      appBar: AppBarWidget(title: 'Giriş Yap'),
 
       body: Column(
         children: [

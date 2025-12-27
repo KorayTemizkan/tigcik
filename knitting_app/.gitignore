@@ -50,3 +50,7 @@ firebase.json
 /lib/firebase_options.dart
 # ios/Runner/GoogleService-Info.plist
 /android/local.properties
+
+# .env related
+.env
+.env.*

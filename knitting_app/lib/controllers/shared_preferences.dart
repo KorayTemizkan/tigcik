@@ -12,7 +12,7 @@ class AppPreferences {
     : _preferences = preferences;
 
   // KEY
-  static const String _streakKey = 'streak';
+  static const String _streakKey = 'streak'; // bunu dakika olarak tut, UI içinde x saat - y dk diye gösteririz
   static const String _firstOpenKey = 'firstOpen';
   static const String _firstOpenAfterUpdateKey = 'firstOpenAfterUpdate';
   static const String _darkThemeKey = 'darkTheme';

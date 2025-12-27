@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:knitting_app/controllers/providers/how_to_provider.dart';
+import 'package:knitting_app/controllers/url_launcher_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExploreView extends StatefulWidget {
   const ExploreView({super.key});
@@ -12,6 +14,8 @@ class ExploreView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<ExploreView> {
+  final TextEditingController messageController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final howToProvider = Provider.of<HowToProvider>(context);
@@ -22,8 +26,22 @@ class _SearchViewState extends State<ExploreView> {
       body: Center(
         child: Column(
           children: [
-            Text('Temel örgü teknikleri'), // HowTos diye modelimiz bu
             Text('ARAMA KISMINI WIDGET YAP VE ORTAK KULLANIMA AÇ'),
+
+            TextField(
+              controller: messageController,
+              decoration: InputDecoration(
+                labelText: 'Mesaj',
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                openWhatsAppSupport(message: messageController.text);
+              },
+              child: Text('Fidan Öğretmen\'imize sor'),
+            ),
 
             Expanded(
               child: ListView.builder(
@@ -52,14 +70,12 @@ class _SearchViewState extends State<ExploreView> {
               ),
             ),
 
-            // WP DESTEK HATTI EKLENECEK
-
-            Text(
-              'Fidan Öğretmenimizden rehberler',
-            ), // Guides diye modelimiz var
             Text('Odevler'), // Products'dan hallederiz
-            Text('Fidan öğretmenimize sor'), //
-            Text('Yapay zekaya sor'), //
+            Text(
+              'Yapay Zeka\'ya sor bölümümüzü geliştiriyoruz!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
