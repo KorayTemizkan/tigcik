@@ -1,31 +1,34 @@
 import 'package:knitting_app/controllers/providers/database_provider.dart';
-import 'package:path/path.dart';
+import 'package:knitting_app/models/note_model.dart';
+import 'package:path/path.dart'; // Veritabanının nereye kaydedileceğini Linux ve Windows platformlarında sorun çıkarmaması için kullanıyoruz
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
-  Database? _db;
+  final Database db;
+  DatabaseService(this.db); //? neden böyle yaptık tam anlamadım
 
-  Future<Database> get database async {
-    if (_db != null) return _db!;
-    _db = await openDatabase(
-      join(await getDatabasesPath(), 'app.db'),
-      version: 1,
-      onCreate: (db, _) async {
-        await db.execute(
-          'CREATE TABLE notes(id INTEGER PRIMARY KEY, text TEXT)',
-        );
-      },
+  Future<void> getNotes() async {
+    db.query('notes');
+  }
+
+  Future<void> addNote(Note note) async {
+    await db.insert(
+      'notes',
+      note.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    return _db!;
   }
 
-  Future<void> insertNote(String text) async {
-    final db = await database;
-    await db.insert('notes', {'text': text});
+  Future<void> updateNote(Note note) async {
+    await db.update(
+      'notes',
+      note.toMap(),
+      where: 'id = ?',
+      whereArgs: [note.id],
+    );
   }
 
-  Future<List<Map<String, dynamic>>> getNotes() async {
-    final db = await database;
-    return db.query('notes');
+  Future deleteNote(int id) async {
+    await db.delete('notes', where: 'id = ?', whereArgs: [id]);
   }
 }

@@ -47,7 +47,7 @@ prefs.getStringList(...) gibi çağrılar yaptığında bellekteki Map'ten okur 
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProviderFirebase()),
         ChangeNotifierProvider(create: (_) => HowToProvider()),
-        ChangeNotifierProvider(create: (_) => DatabaseProvider()),
+        ChangeNotifierProvider(create: (_) => DatabaseProvider()..initDatabase()),
       ],
       child: const MyApp(),
     ),
@@ -72,8 +72,6 @@ class _MyAppState extends State<MyApp> {
           .loadProducts(); // widget ağacı oluşturulduğunda sadece tek bir kere verileri internetten çekiyoruz ve yetiyor
 
       context.read<HowToProvider>().loadHowTos();
-
-      context.read<DatabaseProvider>().initDatabase();
     });
   }
 
