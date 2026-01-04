@@ -23,6 +23,14 @@ class _OnboardingViewState extends State<FirstOpenView> {
 
           Expanded(
             child: ListView(
+              /*
+              HOŞ GELDİNİZ KARŞILAMASI, KISA BİR TANITIM
+              Uygulamaya girerken terms of use ve gizlilik şartlarını kabul edersiniz
+              BİLGİ DÜZEYİNİZ
+              KAYDOL
+              GİRİŞ YAP
+              DOĞRUCA UYGULAMAYA GİR
+              */
               children: [
                 Text(
                   'HOŞ GELDİNİZ! 30 Saniyenizi alarak sizlere en uygun algoritmayı oluşturabiliriz!',

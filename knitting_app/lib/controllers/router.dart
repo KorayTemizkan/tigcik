@@ -47,6 +47,8 @@ class AppRoutes {
   static const String product = 'product';
   static const String howTo = 'howTo';
   static const String knittingCafe = 'knittingCafe';
+
+  // Privacy policy ve Terms of Use ekle
 }
 
 final router = GoRouter(
