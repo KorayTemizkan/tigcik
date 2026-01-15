@@ -20,6 +20,30 @@ class _SettingsViewState extends State<SettingsView> {
   double volume = MusicController().volume;
   String selectedLanguage = 'TR';
 
+  Future<void> _showMyDialog() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Merhaba'),
+          content: Text(
+            'WhatsApp hattımıza yönlendiriliyorsunuz! Soru, öneri ve şikayetlerinizi bizlere iletebilirsiniz',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Geri dön'),
+            ),
+            TextButton(
+              onPressed: () => openWhatsAppSupport(),
+              child: const Text('Devam et'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +73,6 @@ class _SettingsViewState extends State<SettingsView> {
                   child: Text('Veritabanını sil'),
                 ),
                 */
-
                 ListTile(
                   title: const Text('Koyu Tema'),
                   trailing: Switch(
@@ -74,7 +97,7 @@ class _SettingsViewState extends State<SettingsView> {
                 ListTile(
                   title: const Text('Bize sor!'),
                   onTap: () {
-                    context.push('/settings/sendUs');
+                    _showMyDialog();
                   },
                 ),
 

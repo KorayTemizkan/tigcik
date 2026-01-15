@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:knitting_app/controllers/providers/ai_answers_provider.dart';
 import 'package:knitting_app/controllers/providers/how_to_provider.dart';
 import 'package:knitting_app/controllers/providers/knitting_cafe_provider.dart';
 import 'package:knitting_app/controllers/providers/notes_provider.dart';
@@ -48,6 +49,7 @@ prefs.getStringList(...) gibi çağrılar yaptığında bellekteki Map'ten okur 
         ChangeNotifierProvider(create: (_) => HowToProvider()),
         ChangeNotifierProvider(create: (_) => NotesProvider()..init()),
         ChangeNotifierProvider(create: (_) => KnittingCafeProvider()),
+        ChangeNotifierProvider(create: (_) => AiAnswersProvider()..init()),
       ],
       child: const MyApp(),
     ),

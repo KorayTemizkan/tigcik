@@ -24,10 +24,11 @@ class _CommunityViewState extends State<CommunityView> {
             
             4 UNSUR OLUCAK
             
-            Kişi ara kısmı olsun. istediğiniz kişiyi arayıp onun profil sayfasına gidebilelim
-            Productunu ekle , Gönderi yaz
-            Kişiler ve eserleri ( Yana kaydırmalık ) 
-            Gönderiler ( Aşağı kaydırmalık ), yanıtlama özelliği henüz yok, kaydetme olsun, beğenme olsun
+            Facebook gönderi atabilme: Gönderi atabilme, takip ettiğin insanların gönderileri ya da 
+            Facebook profilleri ve arama:Farklı kullanıcıları görebilme, profil sayfalarına gidebilme olsun. - Kullanıcı arama olsun, ama normal olarak ayın enleri yapalım. aktiflik sıralamasına göre ayın 50'si filan olsun
+            Facebook grupları: Örgü kafe toplulukları olsun. O kafelerin sahipleri doğrulama yaparsa onlar eklenebilir mesela. Ya da birisi Bursa Nilüferciler diye bir topluluk kursun ve üyeleri olsun. Bu toplulukların sayfası olsun. Bu topluluklarda gönderi atılınca sadece buraya özel olsun. Bu topluluğa giriş onayla olsun.
+            
+            Mesajlaşma yerine gönderilere yorum atma olsun şimdilik
             */
             TextField(
               controller: _postController,

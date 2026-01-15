@@ -16,7 +16,6 @@ import 'package:knitting_app/views/model_views/product_view.dart';
 import 'package:knitting_app/views/profile_view/profile_view.dart';
 import 'package:knitting_app/views/explore_view/explore_view.dart';
 import 'package:knitting_app/views/settings_view/about_us_view.dart';
-import 'package:knitting_app/views/settings_view/send_us_view.dart';
 import 'package:knitting_app/views/settings_view/settings_view.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
 import 'package:knitting_app/views/settings_view/sss_view.dart';
@@ -36,7 +35,6 @@ class AppRoutes {
 
   static const String settings = "/settings";
   static const String aboutUs = "/aboutUs";
-  static const String sendUs = "/sendUs";
   static const String signIn = '/signIn';
   static const String register = '/register';
   static const String firstOpen = '/firstOpen';
@@ -94,11 +92,6 @@ final router = GoRouter(
         GoRoute(
           path: AppRoutes.aboutUs,
           builder: (context, state) => AboutUsView(),
-        ),
-
-        GoRoute(
-          path: AppRoutes.sendUs,
-          builder: (context, state) => SendUsView(),
         ),
 
         GoRoute(

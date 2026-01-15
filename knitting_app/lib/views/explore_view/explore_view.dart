@@ -20,6 +20,30 @@ class ExploreView extends StatefulWidget {
 class _SearchViewState extends State<ExploreView> {
   final TextEditingController messageController = TextEditingController();
 
+  Future<void> _showMyDialog() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Merhaba'),
+          content: Text(
+            'WhatsApp hattımıza yönlendiriliyorsunuz! Fidan Öğretmen-e fotoğraf ya da fotoğrafsız soru sorabilirsiniz',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Geri dön'),
+            ),
+            TextButton(
+              onPressed: () => openWhatsAppSupport(),
+              child: const Text('Devam et'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final howTos = context.watch<HowToProvider>().howTos;
@@ -116,7 +140,7 @@ class _SearchViewState extends State<ExploreView> {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () {
-                      openWhatsAppSupport();
+                      _showMyDialog();
                     },
                     child: Text('Fidan Öğretmen\'imize sor'),
                   ),

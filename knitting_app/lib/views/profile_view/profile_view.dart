@@ -193,9 +193,12 @@ class _ProfileViewState extends State<ProfileView> {
                   final n = notes[index];
 
                   return Card(
-                    child: ListTile(
-                      title: Text(n.note),
-                      subtitle: Text('${n.id}, ${n.time}'),
+                    child: ExpansionTile(
+                      title: Text(n.title),
+                      subtitle: Text('${n.time}'),
+                      children: [
+                        Text(n.note)
+                      ],
                     ),
                   );
                 },
