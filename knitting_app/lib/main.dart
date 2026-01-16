@@ -5,22 +5,33 @@ import 'package:knitting_app/controllers/providers/how_to_provider.dart';
 import 'package:knitting_app/controllers/providers/knitting_cafe_provider.dart';
 import 'package:knitting_app/controllers/providers/notes_provider.dart';
 import 'package:knitting_app/controllers/providers/product_provider.dart';
+import 'package:knitting_app/controllers/providers/supabase_provider.dart';
 import 'package:knitting_app/controllers/providers/theme_provider.dart';
 import 'package:knitting_app/controllers/router.dart';
-import 'package:knitting_app/firebase_options.dart';
+//import 'package:knitting_app/firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:knitting_app/controllers/shared_preferences.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:knitting_app/controllers/providers/auth_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+final supabase = Supabase.instance.client;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
-  // Firebase ayarlamaları burada yapılır
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Firebase ayarlamaları burada yapılır. Ancak Supabase için kapattım. Firebase kullanmayacağım.
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final supabaseUrl = dotenv
+      .env['SUPABASE_URL']!; // buraya koyulan ! null olmayacağını garantiler
+  final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY']!;
+  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+  
+
   /*
 Shared preferences diskten her çağrıda okuma yapmaz, uygulama açılırken diskteki XML/JSON dosyasını bir kere okur
 Belleğe yükler
@@ -45,11 +56,12 @@ prefs.getStringList(...) gibi çağrılar yaptığında bellekteki Map'ten okur 
           create: (_) => SharedPreferencesProvider(appPreferences),
         ),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AuthProviderFirebase()),
+        //ChangeNotifierProvider(create: (_) => AuthProviderFirebase()),
         ChangeNotifierProvider(create: (_) => HowToProvider()),
         ChangeNotifierProvider(create: (_) => NotesProvider()..init()),
         ChangeNotifierProvider(create: (_) => KnittingCafeProvider()),
         ChangeNotifierProvider(create: (_) => AiAnswersProvider()..init()),
+        ChangeNotifierProvider(create: (_) => SupabaseProvider()),
       ],
       child: const MyApp(),
     ),

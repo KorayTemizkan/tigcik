@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/auth_provider.dart';
+import 'package:knitting_app/controllers/providers/supabase_provider.dart';
 import 'package:provider/provider.dart';
 
 class SignInView extends StatefulWidget {
@@ -46,7 +47,7 @@ class _MyWidgetState extends State<SignInView> {
 
           ElevatedButton(
             onPressed: () async {
-              bool result = await context.read<AuthProviderFirebase>().signIn(
+              bool result = await context.read<SupabaseProvider>().signInUser(
                 email: emailController.text,
                 password: passwordController.text,
               );
