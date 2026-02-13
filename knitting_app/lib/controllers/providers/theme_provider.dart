@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {
+  static const Color primaryColor = Color(0xFFFF5722);
+  static const Color backgroundColor = Colors.white; //0xFFFFFAF5
+  static const Color cardColor = Colors.white;
+
   final ThemeData _lightTheme = ThemeData(
     useMaterial3: true, // Material 3 tasarım kitini kullandığını belirtmek için
-    //scaffoldBackgroundColor: const Color(0xFFF3E5F5), // Genel arka plan rengi
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: backgroundColor, // Genel arka plan rengi
+
     cardTheme: CardThemeData(
       // Kart tasarımı için
-      color: Colors.white,
+      color: cardColor,
     ),
 
+
     textTheme: const TextTheme(titleLarge: TextStyle(color: Colors.black)),
+    
   );
 
   final ThemeData _darkTheme = ThemeData(
     useMaterial3: true,
-   // scaffoldBackgroundColor: const Color(0xFF121212),
+    // scaffoldBackgroundColor: const Color(0xFF121212),
     cardTheme: CardThemeData(color: const Color(0xFF1E1E1E)),
 
     textTheme: TextTheme(

@@ -9,73 +9,52 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: NavigationBarTheme(
-       
-        data: NavigationBarThemeData(
-          backgroundColor: Colors.white,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: Color(0xFFFF5722), width: 0.5)),
         ),
+        child: NavigationBarTheme(
 
-        child: NavigationBar(
-          
-          selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected: navigationShell.goBranch,
+          data: NavigationBarThemeData(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.transparent,
+            indicatorColor: Colors.transparent,
+            iconTheme: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return const IconThemeData(color: Color(0xFFFF5722), size: 32);
+              }
+              return const IconThemeData(
+                color: Color(0xFF1E1E1E),
+                size: 22,
+              ); 
+            }),
+          ),
 
-          destinations: [
-            _menuItem(
-              context,
+          child: NavigationBar(
+            height:
+                60, // Yüksekliği buradan küçültebilirsin (Varsayılanı genelde 80'dir)
+            selectedIndex: navigationShell.currentIndex,
+            onDestinationSelected: navigationShell.goBranch,
+            labelBehavior: NavigationDestinationLabelBehavior
+                .alwaysHide, // Yazıları tamamen gizler
+            destinations: [
+              _menuItem(context, icon: Icons.home, label: 'Ana Sayfa'),
+              _menuItem(context, icon: Icons.school, label: 'Eğitim'),
+              _menuItem(context, icon: Icons.groups, label: 'Topluluk'),
+              _menuItem(context, icon: Icons.account_circle, label: 'Profil'),
+            ],
+          ),
 
-              index: 0,
-              currentIndex: navigationShell.currentIndex,
-              label: 'Ana Sayfa',
-              icon: Icons.home,
-            ),
-
-            _menuItem(
-              context,
-
-              index: 1,
-              currentIndex: navigationShell.currentIndex,
-              label: 'Eğitim',
-              icon: Icons.school,
-            ),
-
-            _menuItem(
-              context,
-
-              index: 2,
-              currentIndex: navigationShell.currentIndex,
-              label: 'Topluluk',
-              icon: Icons.groups,
-            ),
-
-            _menuItem(
-              context,
-
-              index: 3,
-              currentIndex: navigationShell.currentIndex,
-              label: 'Profil',
-              icon: Icons.account_circle,
-            ),
-            
-          ]
         ),
       ),
     );
   }
 
-
   Widget _menuItem(
     BuildContext context, {
-    required int index,
-    required int currentIndex,
     required String label,
     required IconData icon,
   }) {
-    return NavigationDestination(
-      icon: Icon(
-        icon,
-      ),
-      label: label,
-    );
+    return NavigationDestination(icon: Icon(icon), label: label);
   }
 }

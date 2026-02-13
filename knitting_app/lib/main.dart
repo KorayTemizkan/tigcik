@@ -1,19 +1,4 @@
-/* 
-GENEL YOKLAMA:
-* İnternet var mı kontrolü ekle; yoksa veriler yerel json'dan çekilsin, varsa internetten
-* Devam et seçeneği olması lazım. Tarifin, örgünün veya ödevin yapmaya devam et seçeneği olmalı
-* Giriş ve tanıtım ekranlarını geliştir.
-* Hatırlatıcılar (Üç gündür bizimle değilsin, yeni yarışma var vb..)
-* Json veri çekme işlemini Supabase Storage'ye çek  
-* Filtreleme mekaniği: Ürünler içinde zorluğu kolay olanları göster
-* Dokümantasyonu geliştir. Daha fazla diyagram ekle
-* Github reposunu düzenle. knitting-app adı olmasın.
-* Gereksiz kütüphaneleri kaldır.
-* Hata ayıklamaları ekle:
-* Ayarlara iki kere tıklayınca iki kere gitmiş gibi oluyor. Onu düzelt.
-* Çevrimdışı çalışma ekle.
-* Optimize et.
-*/
+// Kenarlardan margin değeri 8 kalmaya devam etsin mi
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +13,6 @@ import 'package:knitting_app/controllers/providers/release_notes_provider.dart';
 import 'package:knitting_app/controllers/providers/supabase_provider.dart';
 import 'package:knitting_app/controllers/providers/theme_provider.dart';
 import 'package:knitting_app/controllers/router.dart';
-// import 'package:knitting_app/firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

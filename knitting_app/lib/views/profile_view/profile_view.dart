@@ -1,20 +1,20 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/how_to_provider.dart';
 import 'package:knitting_app/controllers/providers/knitting_cafe_provider.dart';
 import 'package:knitting_app/controllers/providers/notes_provider.dart';
 import 'package:knitting_app/controllers/providers/product_provider.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
-import 'package:knitting_app/controllers/providers/supabase_provider.dart';
+import 'package:knitting_app/controllers/widgets/card_list.dart';
+import 'package:knitting_app/controllers/widgets/my_gesture_button.dart';
+import 'package:knitting_app/controllers/widgets/profile_card.dart';
+import 'package:knitting_app/controllers/widgets/success_card.dart';
+import 'package:knitting_app/controllers/widgets/title_text.dart';
 import 'package:knitting_app/models/how_to_model.dart';
 import 'package:knitting_app/models/knitting_cafe_model.dart';
 import 'package:knitting_app/models/note_model.dart';
 import 'package:knitting_app/models/product_model.dart';
 import 'package:provider/provider.dart';
-import 'package:knitting_app/controllers/providers/auth_provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -119,15 +119,110 @@ class _ProfileViewState extends State<ProfileView> {
 
     return Scaffold(
       appBar: AppBarWidget(title: 'Profil'),
-      body: Center(
-        child: Column(
-          children: [
-            // 4 UNSUR OLUCAK
+      body: ListView(
+        children: [
+          ProfileCard(), // Yukarıdaki widget'ı burada çağırıyorsun
 
-            // PROFİL
-            // KAYDEDİLENLER ( Yana kaydırmalık + yine tam ekrana alma seçeneği olabilir)
-            // BEĞENİLENLER ( Yana kaydırmalık +)
-            // NOTLARIM ( Yana kaydırmalık +)
+          TitleText(text: 'Sosyal Medya Hesaplarım'),
+          CardList(
+            widgets: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceEvenly, // İkonları satıra eşit dağıtır
+                  children: const [
+                    // Sosyal Medya Grubu (Turuncu)
+                    Icon(
+                      Icons.camera_alt_outlined,
+                      color: Color(0xFFFF5722),
+                      size: 24,
+                    ),
+                    Icon(
+                      Icons.play_circle_outline,
+                      color: Color(0xFFFF5722),
+                      size: 24,
+                    ),
+                    Icon(
+                      Icons.facebook_outlined,
+                      color: Color(0xFFFF5722),
+                      size: 24,
+                    ),
+                    Icon(
+                      Icons.close_rounded,
+                      color: Color(0xFFFF5722),
+                      size: 24,
+                    ),
+                    Icon(
+                      Icons.attach_money_outlined,
+                      color: Color(0xFFFF5722),
+                      size: 24,
+                    ),
+                    // Satış ve Web Grubu (Siyah/Koyu Gri)
+                    Icon(
+                      Icons.push_pin_outlined,
+                      color: Color(0xFF1E1E1E),
+                      size: 24,
+                    ),
+                    Icon(
+                      Icons.shopping_bag_outlined,
+                      color: Color(0xFF1E1E1E),
+                      size: 24,
+                    ),
+                    Icon(
+                      Icons.language_rounded,
+                      color: Color(0xFF1E1E1E),
+                      size: 24,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          TitleText(text: 'Başarılarım'),
+
+          SuccessCard(), // Eğer başarılarım kısmını da ayrı card yaptıysan altına eklersin
+
+          TitleText(text: 'Listelerim'),
+          CardList(
+            widgets: [
+              MyGestureButton(
+                route: 'unfinisheds',
+                text: 'Yarım Bıraktıklarım',
+                icon: Icons.play_circle_outline,
+              ),
+              MyGestureButton(
+                route: 'finisheds',
+                text: 'Bitirilenler',
+                icon: Icons.check_circle_outline,
+              ),
+              MyGestureButton(
+                route: 'likeds',
+                text: 'Beğenilenler',
+                icon: Icons.favorite_outline,
+              ),
+              MyGestureButton(
+                route: 'saveds',
+                text: 'Kaydedilenler',
+                icon: Icons.bookmark_outline,
+              ),
+              MyGestureButton(
+                route: 'posts',
+                text: 'Gönderilerim',
+                icon: Icons.list_alt,
+              ),
+              MyGestureButton(
+                route: 'notes',
+                text: 'Notlarım',
+                icon: Icons.notes,
+              ),
+            ],
+          ),
+
+          SizedBox(height: 15),
+
+          /*
             Expanded(
               child: GridView.count(
                 crossAxisCount: 4,
@@ -323,8 +418,8 @@ class _ProfileViewState extends State<ProfileView> {
                 },
               ),
             ),
-          ],
-        ),
+            */
+        ],
       ),
     );
   }

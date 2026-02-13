@@ -14,6 +14,12 @@ yaptığını toplulukla paylaş
 import 'package:flutter/material.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/contest_provider.dart';
+import 'package:knitting_app/controllers/widgets/content_card.dart';
+import 'package:knitting_app/controllers/widgets/contest_card.dart';
+import 'package:knitting_app/controllers/widgets/generic_search_anchor_bar.dart';
+import 'package:knitting_app/controllers/widgets/title_text.dart';
+import 'package:knitting_app/controllers/widgets/vertical_card_list.dart';
+import 'package:knitting_app/models/searchable_model.dart';
 import 'package:provider/provider.dart';
 
 class ContestsView extends StatefulWidget {
@@ -26,51 +32,53 @@ class ContestsView extends StatefulWidget {
 class _ContestsViewState extends State<ContestsView> {
   @override
   Widget build(BuildContext context) {
-    final contestProvider = context.read<ContestProvider>();
-    final contests = contestProvider.contests;
-    final contest = contestProvider.currentContest;
+    final contests = context.read<ContestProvider>().contests;
 
     return Scaffold(
       appBar: AppBarWidget(title: 'Yarışmalar'),
-      body: Column(
+      body: ListView(
         children: [
-          Text(
-            'Mevcut Yarışma, yerelde not alabilirsiniz ancak ödül almanız için toplulukta paylaşmanız gerekmektedir. Her 100 beğeni 10 tığcık puan',
+          ContestCard(
+            teacher: 'Fidan',
+            name: 'Bebek Patiği',
+            difficulty: 'Normal',
+            header: '500 tığcık puanı ödüllü yarışma',
+            content:
+                'Yeni doğmuş bebeğinize gönül rahatlığıyla giydirebilirsiniz',
           ),
 
-          Divider(height: 50, thickness: 15, color: Colors.amber),
 
-          Expanded(
-            child: Card(
-              child: Column(
-                children: [
-                  Text(contest.title),
-                  Text(contest.content),
-                  ElevatedButton(onPressed: () {}, child: Text('Not al')),
-                  ElevatedButton(onPressed: () {}, child: Text('Toplulukta paylaş')),
-                ],
-              ),
-            ),
+          TitleText(text: 'Önceki Yarışmalar'),
+          
+          /*
+          GenericSearchAnchorBar<Searchable>(
+            items: [...products, ...howTos],
+            hintText: 'Ara...',
+            onItemSelected: (item) {
+              if (item is ProductModel) {
+                context.go('/products', extra: item);
+              } else if (item is HowToModel) {
+                context.go('/howTo', extra: item);
+              }
+            },
           ),
+          */
 
-          Divider(height: 50, thickness: 15, color: Colors.amber),
+   
+          VerticalCardList(
+            itemCount: contests.length,
+            cardHeight: 260, // yükseklik
+            crossAxisCount: 2, // sağdan solal yüzde kaç oranı
+            itemBuilder: (context, index) {
+              final contest = contests[index];
 
-          Text('Önceki Yarışmalarım'),
-          Expanded(
-            child: ListView.builder(
-              itemCount: contests.length,
-              itemBuilder: (context, index) {
-                final contest = contests[index];
-
-                return Card(
-                  child: ExpansionTile(
-                    title: Text(contest.title),
-                    subtitle: Text(contest.difficulty),
-                    children: <Widget>[Text(contest.content)],
-                  ),
-                );
-              },
-            ),
+              return ContentCard(
+                title: contest.title,
+                difficulty: contest.difficulty,
+                estimatedHour: contest.content,
+                onTap: () {},
+              );
+            },
           ),
         ],
       ),

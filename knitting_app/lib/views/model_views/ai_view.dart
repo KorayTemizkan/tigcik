@@ -5,6 +5,10 @@ import 'package:knitting_app/controllers/app_bar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:knitting_app/controllers/providers/ai_answers_provider.dart';
+import 'package:knitting_app/controllers/widgets/card_list.dart';
+import 'package:knitting_app/controllers/widgets/subtitled_info_card_with_image.dart';
+import 'package:knitting_app/controllers/widgets/take_note.dart';
+import 'package:knitting_app/controllers/widgets/title_text.dart';
 import 'package:knitting_app/models/ai_answer_model.dart';
 import 'package:provider/provider.dart';
 
@@ -107,10 +111,180 @@ class _AiViewState extends State<AiView> {
     aiAnswers = aiAnswersProvider.aiAnswers;
 
     return Scaffold(
-      appBar: AppBarWidget(title: 'Yapay Zekaya Sor'),
+      appBar: AppBarWidget(title: 'Akıllı Tığcık-a Sor'),
 
-      body: Column(
+      body: ListView(
         children: [
+          Card(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            elevation: 1,
+
+            child: Padding(
+              padding: const EdgeInsetsGeometry.all(24.0),
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 24,
+                        backgroundColor: Color(0xFFFF5722),
+                        child: Icon(
+                          Icons.smart_toy_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      SizedBox(width: 16),
+
+                      Expanded(
+                        child: Text(
+                          'Merhaba!\nBen Akıllı Tığcık!',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  Text(
+                    'Akıllı Tığcık-a Sor'
+                    ' Sayfasına Hoş Geldiniz! Burada metin ve görsel yükleme yardımıyla yapay zekaya soru sorabilir ve yanıt alabilirsiniz',
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton.icon(
+                  onPressed: () => context.go('/register'),
+                  icon: const Icon(
+                    Icons.refresh_rounded,
+                    size: 20,
+                    color: Color(0xFFFF5722),
+                  ),
+                  label: const Text(
+                    'Sıfırla',
+                    style: TextStyle(color: Color(0xFFFF5722)),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text('Kalan Soru Hakkı: 7/24'),
+                ),
+
+              ],
+            ),
+          ),
+
+
+         TakeNote(minLines: 4, controller: _questionController, labelText: 'Ne düşünüyorsun?'),
+
+           // --- Alt Aksiyonlar (Görsel ve Paylaş) ---
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: OutlinedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add_a_photo_outlined),
+                    label: const Text('Görsel Ekle (0/2)'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFFFF5722),
+                      side: const BorderSide(color: Color(0xFFFF5722)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF5722),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: const Text(
+                      'Tığcık\'ta Paylaş',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          TitleText(text: 'Önceki Sorularım'),
+
+          /*
+                GenericSearchAnchorBar<Searchable>(
+            items: [...products, ...howTos],
+            hintText: 'Ara...',
+            onItemSelected: (item) {
+              if (item is ProductModel) {
+                context.go('/products', extra: item);
+              } else if (item is HowToModel) {
+                context.go('/howTo', extra: item);
+              }
+            },
+          ),
+          */
+          CardList(
+            widgets: [
+              SubtitledInfoCardWithImage(
+                imageUrl: 'https://via.placeholder.com/150',
+                title: 'Uygulama Kullanımı',
+                subtitle: 'Aklına takılan soruları yanıtlayalım',
+              ),
+              SubtitledInfoCardWithImage(
+                imageUrl: 'https://via.placeholder.com/150',
+                title: 'Uygulama Kullanımı',
+                subtitle: 'Aklına takılan saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaoruları yanıtlayalım',
+              ),
+              SubtitledInfoCardWithImage(
+                imageUrl: 'https://via.placeholder.com/150',
+                title: 'Uygulama Kullanımı',
+                subtitle: 'Aklına takılan soruları yanıtlayalım',
+              ),
+              SubtitledInfoCardWithImage(
+                imageUrl: 'https://via.placeholder.com/150',
+                title: 'Uygulama Kullanımı',
+                subtitle: 'Aklına takılan soruları yanıtlayalım',
+              ),
+              SubtitledInfoCardWithImage(
+                imageUrl: 'https://via.placeholder.com/150',
+                title: 'Uygulama Kullanımı',
+                subtitle: 'Aklına takılan soruları yanıtlayalım',
+              ),
+            ],
+          ),
+
+          /*
           Text('Günlük kullanım kotanız: x/20'),
           Text(
             'Merhaba, bu bölümde yapay zekaya metin bazlı soru sorabilir, Takıldığınız noktada yapmaya çalıştığınız örgünün fotoğrafını çekip yollayabilirsiniz vb vb.',
@@ -174,6 +348,7 @@ class _AiViewState extends State<AiView> {
               },
             ),
           ),
+          */
         ],
       ),
     );

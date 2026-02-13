@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
 import 'package:knitting_app/controllers/providers/supabase_provider.dart';
+import 'package:knitting_app/controllers/widgets/card_list.dart';
+import 'package:knitting_app/controllers/widgets/edit_profile.dart';
+import 'package:knitting_app/controllers/widgets/my_gesture_button.dart';
+import 'package:knitting_app/controllers/widgets/title_text.dart';
 import 'package:provider/provider.dart';
 
 class EditProfileView extends StatefulWidget {
@@ -16,60 +20,201 @@ class _EditProfileViewState extends State<EditProfileView> {
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
+  TextEditingController _instagramController = TextEditingController();
+  TextEditingController _youtubeController = TextEditingController();
+  TextEditingController _facebookController = TextEditingController();
+  TextEditingController _xController = TextEditingController();
+  TextEditingController _pinterestController = TextEditingController();
+  TextEditingController _shopifyController = TextEditingController();
+  TextEditingController _webSiteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(title: 'Profil Güncelleme'),
-      body: Column(
+      body: ListView(
         children: [
-          SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFF5722),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25),
+                    ),
+                  ),
+                ),
 
-          Text('GÜNCELLEME EKRANI'),
+                Positioned(
+                  bottom: -40,
+                  child: InkWell(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: const Color.fromARGB(255, 230, 216, 216),
+                      child: Icon(
+                        Icons.person_outline,
+                        size: 60,
+                        color: Color(0xFFFF5722),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: -40,
+                  child: InkWell(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: const Color.fromARGB(255, 230, 216, 216),
+                      child: Icon(
+                        Icons.person_outline,
+                        size: 60,
+                        color: Color(0xFFFF5722),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-          Divider(height: 50, thickness: 15, color: Colors.amber),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.edit),
+                    label: const Text('Profil'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFFF5722),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+                Spacer(),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.edit),
+                    label: const Text('Kapak'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFFF5722),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-          TextField(
+          TitleText(text: 'Kullanıcı Bilgileri'),
+
+          EditProfile(
             controller: _firstNameController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Ad',
-            ),
+            labelText: 'Ad',
+            icon: Icons.person_outline,
           ),
-
-          Divider(height: 50, thickness: 15, color: Colors.amber),
-
-          TextField(
+          EditProfile(
             controller: _lastNameController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Soyad',
-            ),
+            labelText: 'Soyad',
+            icon: Icons.badge_outlined,
           ),
-
-          Divider(height: 50, thickness: 15, color: Colors.amber),
-
-          TextField(
+          EditProfile(
+            controller: _userNameController,
+            labelText: 'Kullanıcı Adı',
+            icon: Icons.alternate_email,
+          ),
+          EditProfile(
             controller: _phoneController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Telefon Numarası',
-            ),
+            labelText: 'Telefon Numarası',
+            icon: Icons.phone_android_outlined,
           ),
 
-          Divider(height: 50, thickness: 15, color: Colors.amber),
+          // --- Sosyal Medya ---
+          TitleText(text: 'Sosyal Medya'),
 
-          ElevatedButton(
-            onPressed: () {
-              context.read<SupabaseProvider>().updateProfile(
-                firstName: _firstNameController.text,
-                lastName: _lastNameController.text,
-                phone: _phoneController.text,
-              );
+          EditProfile(
+            controller:
+                _instagramController, // Buradaki controller'ları düzeltmeyi unutma!
+            labelText: 'Instagram',
+            icon: Icons.camera_alt_outlined,
+          ),
+          EditProfile(
+            controller: _youtubeController,
+            labelText: 'YouTube',
+            icon: Icons.play_circle_outline,
+          ),
+          EditProfile(
+            controller: _facebookController,
+            labelText: 'Facebook',
+            icon: Icons.facebook_outlined,
+          ),
+          EditProfile(
+            controller: _xController,
+            labelText: 'X',
+            icon: Icons.close, // X için en yakın standart ikon budur
+          ),
+          EditProfile(
+            controller: _pinterestController,
+            labelText: 'Pinterest',
+            icon: Icons.push_pin_outlined,
+          ),
+          EditProfile(
+            controller: _shopifyController,
+            labelText: 'Shopify',
+            icon: Icons.shopping_bag_outlined,
+          ),
+          EditProfile(
+            controller: _webSiteController,
+            labelText: 'Web Sitesi',
+            icon: Icons.language_outlined,
+          ),
+           EditProfile(
+            controller: _webSiteController,
+            labelText: 'DENEME',
+            icon: Icons.language_outlined,
+          ),
 
-              context.pop();
-            },
-            child: Text('Güncelle'),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF5722),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.edit_document,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                label: Text(
+                  'Güncelle',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

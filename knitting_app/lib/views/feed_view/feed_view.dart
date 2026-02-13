@@ -5,10 +5,17 @@ import 'package:knitting_app/controllers/providers/auth_provider.dart';
 import 'package:knitting_app/controllers/providers/knitting_cafe_provider.dart';
 import 'package:knitting_app/controllers/providers/product_provider.dart';
 import 'package:knitting_app/controllers/providers/shared_preferences_provider.dart';
+import 'package:knitting_app/controllers/widgets/bonus_card.dart';
+import 'package:knitting_app/controllers/widgets/card_list.dart';
+import 'package:knitting_app/controllers/widgets/comment_section.dart';
 import 'package:knitting_app/controllers/widgets/content_card.dart';
+import 'package:knitting_app/controllers/widgets/contest_card.dart';
 import 'package:knitting_app/controllers/widgets/generic_search_anchor_bar.dart';
 import 'package:knitting_app/controllers/widgets/horizontal_card_list.dart';
 import 'package:knitting_app/controllers/widgets/info_card.dart';
+import 'package:knitting_app/controllers/widgets/title_text.dart';
+import 'package:knitting_app/controllers/widgets/title_with_icon.dart';
+import 'package:knitting_app/controllers/widgets/title_with_see_all.dart';
 import 'package:knitting_app/models/product_model.dart';
 import 'package:knitting_app/models/searchable_model.dart';
 import 'package:path/path.dart';
@@ -31,16 +38,20 @@ class _FeedViewState extends State<FeedView> {
     final sp = context.read<SharedPreferencesProvider>();
 
     return Scaffold(
-      appBar: AppBarWidget(title: 'Akış'),
+      appBar: AppBarWidget(title: 'Ana Sayfa'),
 
       body: ListView(
         children: [
           Card(
             // margin: En dışta yatay ve dikey ne kadar boşluk olacağını ayarlar
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-
+            margin: EdgeInsets.only(top: 8, left: 16, right: 16),
             // elevation: Kartın altındaki gölge miktarını ayarlar.
-            elevation: 2,
+            elevation: 0,
+
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(16),
+              side: const BorderSide(color: Color(0xFFFF5722), width: 1),
+            ),
 
             child: Padding(
               // padding: Kartın içinde yatay ve dikey ne kadar boşluk olacağını ayarlar.
@@ -52,7 +63,11 @@ class _FeedViewState extends State<FeedView> {
                 children: [
                   Text(
                     "Merhaba Koray :)",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFFF5722),
+                    ),
                   ),
 
                   // Elemanlar arası boşluğu ayarlar
@@ -64,9 +79,7 @@ class _FeedViewState extends State<FeedView> {
                       const CircleAvatar(
                         // Çap büyüklüğü
                         radius: 24,
-                        backgroundImage: NetworkImage(
-                          'https://via.placeholder.com/150',
-                        ),
+                        backgroundColor: Colors.grey,
                       ),
 
                       // Elemanlar arası boşluğu ayarlar
@@ -78,15 +91,14 @@ class _FeedViewState extends State<FeedView> {
                           "Bugün hava patik örmek için çok güzel gözüküyor :)",
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-
                       const SizedBox(width: 16),
 
                       // Sağ alt köşedeki ok ikonu
-                      Icon(Icons.arrow_forward, color: Colors.black),
+                      Icon(Icons.arrow_forward, color: Color(0xFFFF5722)),
                     ],
                   ),
                 ],
@@ -94,195 +106,167 @@ class _FeedViewState extends State<FeedView> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Yeni eklenenler'), Text('Tümünü Gör')],
+          TitleText(text: 'Bonus Köşesi'),
+
+          // Haftalık İlerleme Kartı Tasarımı
+          Card(
+            elevation: 0,
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(color: Color(0xFFFF5722), width: 1),
             ),
-          ),
 
-          HorizontalCardList(
-            itemCount: 20,
-            height: 260,
-            cardWidthRatio: 0.6,
-            itemBuilder: (context, index) {
-              return FeedCard(
-                title: "Bebek patiği örmek",
-                subtitle: "Yeni başlayanlar",
-                time: "3 gün önce",
-                onTap: () {},
-              );
-            },
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Bilgi Köşesi'), Text('Tümünü Gör')],
-            ),
-          ),
-
-          HorizontalCardList(
-            itemCount: 20,
-            height: 260,
-            cardWidthRatio: 0.66,
-            itemBuilder: (context, index) {
-              return FeedCard(
-                title: "Bilgi Köşesi",
-                subtitle: "Örgü ipuçları",
-                time: "1 hafta önce",
-              );
-            },
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Haftanın Enleri'), Text('Tümünü Gör')],
-            ),
-          ),
-
-          HorizontalCardList(
-            itemCount: 20,
-            height: 260,
-            cardWidthRatio: 0.6,
-            itemBuilder: (context, index) {
-              return FeedCard(
-                title: "Bebek patiği örmek",
-                subtitle: "Yeni başlayanlar",
-                time: "3 gün önce",
-                onTap: () {},
-              );
-            },
-          ),
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Haftanın Yarışması',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-
-              const SizedBox(height: 12),
-
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// ÜST SATIR
-                      Row(
-                        children: [
-                          const CircleAvatar(radius: 20, child: Text('F')),
-                          const SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Bebek Patiği',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              Text('Orta', style: TextStyle(fontSize: 12)),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      /// GÖRSEL ALAN
-                      Container(
-                        height: 160,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.image,
-                          size: 60,
-                          color: Colors.grey,
-                        ),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      /// ÖDÜL
-                      const Text(
-                        '500 tığcık puanı ödüllü',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-
-                      const SizedBox(height: 4),
-
-                      const Text(
-                        'Subtitle',
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      /// AÇIKLAMA
-                      const Text(
-                        'Yeni doğmuş bebeğinize giydirebileceğiniz doğal ve sağlıklı bu patiklerle çocuğunuzun sağlığını koruyabilirsiniz',
-                        style: TextStyle(fontSize: 13),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      /// BUTONLAR
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () {},
-                            child: const Text('Kaydet'),
-                          ),
-                          const SizedBox(width: 12),
-                          ElevatedButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.star, size: 18),
-                            label: const Text('Ayrıntılar'),
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const TitleWithIcon(
+                    title: "Haftalık Bonus Yolculuğu",
+                    icon: Icons.auto_awesome_motion_rounded,
                   ),
-                ),
+
+                  const SizedBox(height: 12),
+
+                  // 7 Günlük İlerleme Çizgisi (GEMİNİ YAPTI ÖZÜR DİLERİM)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(7, (index) {
+                      bool isCompleted =
+                          index < 3; // Örnek: ilk 3 gün tamamlanmış
+                      return Column(
+                        children: [
+                          Icon(
+                            isCompleted
+                                ? Icons.check_circle
+                                : Icons.radio_button_unchecked,
+                            color: isCompleted
+                                ? const Color(0xFFFF5722)
+                                : Colors.grey,
+                            size: 24,
+                          ),
+                          Text(
+                            "${index + 1}. Gün",
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  const Text(
+                    "4 gün daha gel, Sürpriz Tarif'in kilidini aç!",
+                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          /*
+          GridView.count(
+            crossAxisCount: 2,
+            childAspectRatio: 1.5,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              BonusCard(bonusType: 'Günlük b', bonus: '240 tığcık'),
+              BonusCard(bonusType: 'Çark Çevir', bonus: 'Kalan Hak (0/2)'),
+            ],
+          ),
+          */
+
+          HorizontalCardList(
+            itemCount: products.length,
+            height: 160, // yükseklik
+            cardWidthRatio: 0.6, // sağdan solal yüzde kaç oranı
+            itemBuilder: (context, index) {
+              return BonusCard(bonusType: 'Günlük Bonus', bonus: '240 Tığcık');
+            },
+          ),
+
+          TitleWithSeeAll(text: 'Yeni Eklenenler'),
+
+          HorizontalCardList(
+            itemCount: products.length,
+            height: 240, // yükseklik
+            cardWidthRatio: 0.6, // sağdan solal yüzde kaç oranı
+            itemBuilder: (context, index) {
+              final product = products[index];
+
+              return ContentCard(
+                title: product.title,
+                difficulty: product.difficulty,
+                estimatedHour: product.estimatedHour,
+                onTap: () {
+                  context.go('/product', extra: product);
+                },
+              );
+            },
+          ),
+
+          TitleWithSeeAll(text: 'Bilgi Köşesi'),
+
+          HorizontalCardList(
+            itemCount: products.length,
+            height: 260, // yükseklik
+            cardWidthRatio: 0.6, // sağdan solal yüzde kaç oranı
+            itemBuilder: (context, index) {
+              final product = products[index];
+
+              return ContentCard(
+                title: product.title,
+                difficulty: product.difficulty,
+                estimatedHour: product.estimatedHour,
+                onTap: () {},
+              );
+            },
+          ),
+
+          TitleWithSeeAll(text: 'Haftanın Favorileri'),
+
+          HorizontalCardList(
+            itemCount: products.length,
+            height: 260, // yükseklik
+            cardWidthRatio: 0.6, // sağdan solal yüzde kaç oranı
+            itemBuilder: (context, index) {
+              final product = products[index];
+
+              return ContentCard(
+                title: product.title,
+                difficulty: product.difficulty,
+                estimatedHour: product.estimatedHour,
+                onTap: () {},
+              );
+            },
+          ),
+
+          TitleText(text: 'Haftanın Yarışması'),
+
+          ContestCard(
+            teacher: 'Fidan',
+            name: 'Bebek Patiği',
+            difficulty: 'Normal',
+            header: '500 tığcık puanı ödüllü yarışma',
+            content:
+                'YEni doğmuş bebeğinize gönül rahatlığıyla giydirebilirsiniz',
+          ),
+
+          TitleText(text: 'Biz Kimiz?'),
+
+          CardList(
+            widgets: [
+              InfoCard(
+                icon: Icon(Icons.abc_outlined, color: Color(0xFFFF5722)),
+                text: 'Biz kimiz? :)',
               ),
             ],
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text('İletişim'),
-          ),
-
-          InfoCard(
-            imageUrl: 'https://via.placeholder.com/150',
-            text: 'Bugün hava patik örmek için çok güzel gözüküyor :)',
-          ),
+          SizedBox(height: 15),
         ],
       ),
     );

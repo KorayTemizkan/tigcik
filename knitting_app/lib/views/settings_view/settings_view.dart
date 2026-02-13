@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
-import 'package:knitting_app/controllers/providers/notes_provider.dart';
-import 'package:knitting_app/controllers/router.dart';
 import 'package:knitting_app/controllers/settings/music_controller.dart';
-import 'package:knitting_app/controllers/providers/theme_provider.dart';
 import 'package:knitting_app/controllers/url_launcher_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:knitting_app/controllers/widgets/card_list.dart';
+import 'package:knitting_app/controllers/widgets/my_gesture_button.dart';
+import 'package:knitting_app/controllers/widgets/title_text.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -49,31 +47,251 @@ class _SettingsViewState extends State<SettingsView> {
     return Scaffold(
       appBar: AppBarWidget(title: 'Ayarlar'),
 
-      body: Column(
+      body: ListView(
         children: [
+          // --- Hesap Bölümü ---
+          TitleText(text: 'Hesap'), // Başlık eksikti, eklendi
+          CardList(
+            widgets: [
+              MyGestureButton(
+                route: 'signIn',
+                text: 'Giriş Yap',
+                icon: Icons.login,
+              ), // İkon güncellendi
+              MyGestureButton(
+                route: 'register',
+                text: 'Hesap Oluştur',
+                icon: Icons.person_add,
+              ),
+              MyGestureButton(
+                route: 'signOut',
+                text: 'Çıkış Yap',
+                icon: Icons.logout,
+              ),
+              MyGestureButton(
+                route: 'deleteAccount',
+                text: 'Hesabımı Sil',
+                icon: Icons.delete_forever,
+              ),
+            ],
+          ),
+
+          // --- Uygulama Bölümü ---
+          TitleText(text: 'Uygulama'),
+          CardList(
+            widgets: [
+              MyGestureButton(
+                route: 'theme',
+                text: 'Tema Değiştir',
+                icon: Icons.palette_outlined,
+              ), // Renk paleti tığ işi için şıktır
+              MyGestureButton(
+                route: 'language',
+                text: 'Dil Seçimi',
+                icon: Icons.language,
+              ),
+              MyGestureButton(
+                route: 'notifications',
+                text: 'Bildirim Ayarları',
+                icon: Icons.notifications_none,
+              ), // EKSİK: Bildirimler
+              MyGestureButton(
+                route: 'music',
+                text: 'Müzik ve Ses',
+                icon: Icons.music_note,
+              ),
+            ],
+          ),
+
+          // --- İletişim & Destek Bölümü ---
+          TitleText(text: 'İletişim & Destek'),
+          CardList(
+            widgets: [
+              MyGestureButton(
+                route: 'aboutUs',
+                text: 'Biz Kimiz?',
+                icon: Icons.info_outline,
+              ),
+              MyGestureButton(
+                route: 'askUs',
+                text: 'Sıkça Sorulan Sorular',
+                icon: Icons.help_outline,
+              ), // EKSİK: SSS
+              MyGestureButton(
+                route: 'contact',
+                text: 'Bize Ulaşın',
+                icon: Icons.mail_outline,
+              ), // EKSİK: Doğrudan iletişim
+              MyGestureButton(
+                route: 'releaseNotes',
+                text: 'Güncelleme Notları',
+                icon: Icons.update,
+              ),
+            ],
+          ),
+
+          // --- Yasal Bölümü ---
+          TitleText(text: 'Yasal'),
+          CardList(
+            widgets: [
+              MyGestureButton(
+                route: 'privacyPolicy',
+                text: 'Gizlilik Politikası',
+                icon: Icons.privacy_tip_outlined,
+              ), // Daha standart isim
+              MyGestureButton(
+                route: 'termsOfUse',
+                text: 'Kullanım Koşulları',
+                icon: Icons.rule,
+              ),
+              MyGestureButton(
+                route: 'licenses',
+                text: 'Lisanslar',
+                icon: Icons.card_membership,
+              ), // EKSİK: Flutter uygulamalarında olması gerekir
+            ],
+          ),
+          
+          SizedBox(height: 15),
+          /*
+              myGestureDetector('/settings/signIn', 'Giriş Yap', Icons.person_add),
+              InkWell(
+                onTap: () => context.go('/settings/register'),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.person_add, color: Color(0xFFFF5722)),
+                  text: 'Hesap Oluştur',
+                ),
+              ),
+              InkWell(
+                onTap: () => context.go('/settings/signOut'),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.logout, color: Color(0xFFFF5722)),
+                  text: 'Çıkış Yap',
+                ),
+              ),
+              InkWell(
+                onTap: () => context.go('/settings/deleteAccount'),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.delete_forever, color: Color(0xFFFF5722)),
+                  text: 'Hesabımı Sil',
+                ),
+              ),
+            ],
+          ),
+
+          TitleText(text: 'Uygulama'),
+
+          CardList(
+            widgets: [
+              InkWell(
+                onTap: () {
+                  context.read<ThemeProvider>().toggleTheme(
+                    !context.read<ThemeProvider>().isDark,
+                  );
+                },
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.dark_mode, color: Color(0xFFFF5722)),
+                  text: 'Koyu Tema',
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  // Buraya dil seçimi dialog veya sayfa
+                },
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.language, color: Color(0xFFFF5722)),
+                  text: 'Dil Seç',
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    if (_isPlaying) {
+                      MusicController().pause();
+                    } else {
+                      MusicController().play();
+                    }
+                    _isPlaying = !_isPlaying;
+                  });
+                },
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.music_note, color: Color(0xFFFF5722)),
+                  text: 'Müzik',
+                ),
+              ),
+            ],
+          ),
+
+          TitleText(text: 'İletişim'),
+
+          CardList(
+            widgets: [
+              InkWell(
+                onTap: () => context.go('/settings/aboutUs'),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.info_outline, color: Color(0xFFFF5722)),
+                  text: 'Biz Kimiz?',
+                ),
+              ),
+              InkWell(
+                onTap: () => _showMyDialog(),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(
+                    Icons.question_answer_outlined,
+                    color: Color(0xFFFF5722),
+                  ),
+                  text: 'Bize Sor',
+                ),
+              ),
+              InkWell(
+                onTap: () => context.go('/settings/releaseNotes'),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.update, color: Color(0xFFFF5722)),
+                  text: 'Güncelleme Notları',
+                ),
+              ),
+            ],
+          ),
+
+          TitleText(text: 'Yasal'),
+
+          CardList(
+            widgets: [
+              InkWell(
+                onTap: () => context.go('/settings/privacyPolicy'),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.article_outlined, color: Color(0xFFFF5722)),
+                  text: 'Aydınlatma Metni',
+                ),
+              ),
+              InkWell(
+                onTap: () => context.go('/settings/termsOfUse'),
+                borderRadius: BorderRadius.circular(16),
+                child: InfoCard(
+                  icon: Icon(Icons.rule, color: Color(0xFFFF5722)),
+                  text: 'Kullanım Koşulları',
+                ),
+              ),
+            ],
+          ),
+
+          SizedBox(height: 15),
+          */
+          /*
+
           Expanded(
             child: ListView(
               children: [
-                /*
-                AÇIK/KOYU TEMA
-                BİZ KİMİZ? + Fidan ve beni tanıtan görsellerle ve YT videosuyla süslenmiş bir sayfa
-                GÜNCELLEME NOTLARI
-                BİZE SOR + Burada explore sayfasındaki fonksiyonun aynısını ekliyoruz WP DESTEK HATTI YANİ
-                GİRİŞ YAP, KAYDOL, HESABIMI SİL
-                SIK SORULAN SORULAR
-                GİZLİLİK POLİTİKASI, KULLANIM KOŞULLARI
-                DİL SEÇİMİ YAP + Şİmdilik sadece Türkçe
-                BİZİ PUANLA ile play store sayfa linkimize gidiyoruz
-                MÜZİK KONTROLCÜSÜ
-                */
-                /*
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<NotesProvider>().deleteDatabaseFile();
-                  },
-                  child: Text('Veritabanını sil'),
-                ),
-                */
                 ListTile(
                   title: const Text('Koyu Tema'),
                   trailing: Switch(
@@ -229,6 +447,7 @@ class _SettingsViewState extends State<SettingsView> {
               ],
             ),
           ),
+          */
         ],
       ),
     );

@@ -10,12 +10,20 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
+
+       bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1),
+        child: Container(height: 0.5, color: Color(0xFFFF5722)),
+      ),
+
       backgroundColor: Colors.white,
+      scrolledUnderElevation: 0,
+
 
       actions: [
         IconButton(
           onPressed: () => context.push(AppRoutes.settings),
-          icon: const Icon(Icons.settings),
+          icon: const Icon(color: Color(0xFFFF5722),Icons.settings),
         ),
       ],
     );

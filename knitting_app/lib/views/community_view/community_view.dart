@@ -1,9 +1,20 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:knitting_app/controllers/app_bar.dart';
+import 'package:knitting_app/controllers/providers/knitting_cafe_provider.dart';
 import 'package:knitting_app/controllers/providers/supabase_provider.dart';
+import 'package:knitting_app/controllers/widgets/card_list.dart';
+import 'package:knitting_app/controllers/widgets/comment_section.dart';
+import 'package:knitting_app/controllers/widgets/content_card.dart';
 import 'package:knitting_app/controllers/widgets/generic_search_anchor_bar.dart';
+import 'package:knitting_app/controllers/widgets/horizontal_card_list.dart';
+import 'package:knitting_app/controllers/widgets/segmented_tab.dart';
+import 'package:knitting_app/controllers/widgets/take_note.dart';
+import 'package:knitting_app/controllers/widgets/title_text.dart';
+import 'package:knitting_app/controllers/widgets/title_with_see_all.dart';
+import 'package:knitting_app/controllers/widgets/weekly_stars_card.dart';
 import 'package:knitting_app/models/profile_model.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,8 +27,7 @@ class CommunityView extends StatefulWidget {
 }
 
 class _CommunityViewState extends State<CommunityView> {
-  final TextEditingController _headerController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
+  int selectedIndex = 0;
 
   List<ProfileModel> profiles = [];
 
@@ -48,11 +58,77 @@ class _CommunityViewState extends State<CommunityView> {
 
   @override
   Widget build(BuildContext context) {
+    final knittingCafes = context.watch<KnittingCafeProvider>().knittingCafes;
+
     return Scaffold(
       appBar: AppBarWidget(title: 'Topluluk'),
-      body: Center(
-        child: Column(
-          children: [
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.go('/community/createPost');
+        },
+        backgroundColor: Color(0xFFFF5722),
+        child: const Icon(Icons.add, size: 24, color: Colors.white),
+        shape: const CircleBorder(),
+      ),
+
+      body: ListView(
+        children: [
+          TitleWithSeeAll(text: 'Örgü Kafeler'),
+
+          HorizontalCardList(
+            itemCount: knittingCafes.length,
+            height: 260, // yükseklik
+            cardWidthRatio: 0.6, // sağdan solal yüzde kaç oranı
+            itemBuilder: (context, index) {
+              final knittingCafe = knittingCafes[index];
+
+              return ContentCard(
+                title: knittingCafe.name,
+                difficulty: knittingCafe.phone,
+                estimatedHour: knittingCafe.address,
+                onTap: () {},
+              );
+            },
+          ),
+
+          TitleWithSeeAll(text: 'Haftanın Yıldızları'),
+
+          HorizontalCardList(
+            itemCount: 20,
+            height: 120,
+            cardWidthRatio: 0.18,
+            itemBuilder: (context, index) {
+              return WeeklyStarsCard(
+                title: "@kkkkorayyyy",
+                difficulty: "540 tığcık",
+                estimatedHour: "",
+                onTap: () {},
+              );
+            },
+          ),
+
+          TitleText(text: 'Akış'),
+
+          TripleSegmentButton(
+            titles: ['Herkes', 'Takip'],
+            selectedIndex: selectedIndex,
+            onChanged: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+          ),
+
+          PostCard(showComments: true),
+          PostCard(showComments: true),
+          PostCard(showComments: true),
+          PostCard(showComments: true),
+
+          //PostCard(showComments: true), // 👈
+          //PostCard(showComments: true), // 👈
+          //PostCard(showComments: true), // 👈
+          //PostCard(showComments: true), // 👈
+          /*
             SizedBox(height: 10),
 
             if (profiles.isEmpty) CircularProgressIndicator(),
@@ -175,8 +251,8 @@ class _CommunityViewState extends State<CommunityView> {
             // Takipçi sayısına göre topluluklar
             //ListView.builder(itemCount: 10, itemBuilder: (context, index) {}),
             //Topluluk ara: GenericSearchAnchorBar(items: items, onItemSelected: onItemSelected)
-          ],
-        ),
+            */
+        ],
       ),
     );
   }

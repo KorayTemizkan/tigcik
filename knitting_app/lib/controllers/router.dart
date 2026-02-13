@@ -7,16 +7,23 @@ import 'package:knitting_app/models/how_to_model.dart';
 import 'package:knitting_app/models/knitting_cafe_model.dart';
 import 'package:knitting_app/models/product_model.dart';
 import 'package:knitting_app/views/community_view/community_view.dart';
+import 'package:knitting_app/views/community_view/create_post_view.dart';
 import 'package:knitting_app/views/feed_view/feed_view.dart';
-import 'package:knitting_app/views/first_open_view.dart';
+import 'package:knitting_app/views/onboarding_view.dart';
 import 'package:knitting_app/views/model_views/ai_view.dart';
 import 'package:knitting_app/views/model_views/contests_view.dart';
 import 'package:knitting_app/views/model_views/howTo_view.dart';
 import 'package:knitting_app/views/model_views/knitting_cafe_view.dart';
 import 'package:knitting_app/views/model_views/product_view.dart';
+import 'package:knitting_app/views/profile_view/finisheds_view.dart';
 import 'package:knitting_app/views/profile_view/edit_profile_view.dart';
+import 'package:knitting_app/views/profile_view/likeds_view.dart';
+import 'package:knitting_app/views/profile_view/notes_view.dart';
+import 'package:knitting_app/views/profile_view/posts_view.dart';
 import 'package:knitting_app/views/profile_view/profile_view.dart';
 import 'package:knitting_app/views/explore_view/explore_view.dart';
+import 'package:knitting_app/views/profile_view/saveds_view.dart';
+import 'package:knitting_app/views/profile_view/unfinisheds_view.dart';
 import 'package:knitting_app/views/settings_view/about_us_view.dart';
 import 'package:knitting_app/views/settings_view/privacy_policy_view.dart';
 import 'package:knitting_app/views/settings_view/release_notes_view.dart';
@@ -47,11 +54,17 @@ class AppRoutes {
 
   // TOPLULUK
   static const String community = '/community';
+  static const String createPost = 'createPost';
 
   // PROFİL
   static const String profile = '/profile';
   static const String editProfile = 'editProfile';
-  static const String notepad = '/notepad';
+  static const String likeds = 'likeds';
+  static const String saveds = 'saveds';
+  static const String finisheds = 'finisheds';
+  static const String posts = 'posts';
+  static const String notes = 'notes';
+  static const String unfinisheds = 'unfinisheds';
 
   // AYARLAR
   static const String settings = "/settings";
@@ -63,7 +76,7 @@ class AppRoutes {
   static const String termsOfUse = '/termsOfUse';
 
   // GENEL AYARLAR
-  static const String firstOpen = '/firstOpen';
+  static const String onboarding = '/onboarding';
 }
 
 final router = GoRouter(
@@ -73,12 +86,12 @@ final router = GoRouter(
   redirect: (context, state) {
     final sp = context.read<SharedPreferencesProvider>();
 
-   bool isFirstOpen = sp.isFirstOpen;
+    bool isFirstOpen = sp.isFirstOpen;
     isFirstOpen = false;
-    final isOnboarding = state.uri.path == AppRoutes.firstOpen;
+    final isOnboarding = state.uri.path == AppRoutes.onboarding;
 
     if (isFirstOpen && !isOnboarding) {
-      return AppRoutes.firstOpen;
+      return AppRoutes.onboarding;
     }
 
     if (!isFirstOpen && isOnboarding) {
@@ -90,8 +103,8 @@ final router = GoRouter(
 
   routes: [
     GoRoute(
-      path: AppRoutes.firstOpen,
-      builder: (context, state) => FirstOpenView(),
+      path: AppRoutes.onboarding,
+      builder: (context, state) => OnboardingView(),
     ),
 
     _bottomBar(),
@@ -209,6 +222,13 @@ StatefulShellRoute _bottomBar() {
           GoRoute(
             path: AppRoutes.community,
             builder: (context, state) => const CommunityView(),
+
+            routes: [
+              GoRoute(
+                path: AppRoutes.createPost,
+                builder: (context, state) => const CreatePostView(),
+              ),
+            ],
           ),
         ],
       ),
@@ -223,6 +243,34 @@ StatefulShellRoute _bottomBar() {
               GoRoute(
                 path: AppRoutes.editProfile,
                 builder: (context, state) => EditProfileView(),
+              ),
+              GoRoute(
+                path: AppRoutes.unfinisheds,
+                builder: (context, state) => UnfinishedsView(),
+              ),
+
+              GoRoute(
+                path: AppRoutes.likeds,
+                builder: (context, state) => LikedsView(),
+              ),
+
+              GoRoute(
+                path: AppRoutes.saveds,
+                builder: (context, state) => SavedsView(),
+              ),
+
+              GoRoute(
+                path: AppRoutes.notes,
+                builder: (context, state) => NotesView(),
+              ),
+              GoRoute(
+                path: AppRoutes.finisheds,
+                builder: (context, state) => FinishedsView(),
+              ),
+
+              GoRoute(
+                path: AppRoutes.posts,
+                builder: (context, state) => PostsView(),
               ),
             ],
           ),
