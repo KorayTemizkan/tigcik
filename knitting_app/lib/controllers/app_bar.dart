@@ -21,9 +21,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
       actions: [
         IconButton(
-          onPressed: () => context.push(AppRoutes.settings),
+          onPressed: () => context.push(AppRoutes.notifications),
           icon: const Icon(color: Color(0xFFFF5722), Icons.notifications),
         ),
+        
         IconButton(
           onPressed: () => context.push(AppRoutes.settings),
           icon: const Icon(color: Color(0xFFFF5722), Icons.settings),

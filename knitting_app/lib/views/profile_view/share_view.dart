@@ -82,10 +82,16 @@ class _ShareViewState extends State<ShareView> {
                   "@kkkkorayyyy",
                   style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
                 ),
-                SizedBox(height: 5),
-                Text("+90 534 393 6207", style: TextStyle(color: Colors.grey)),
 
                 SuccessCard(),
+
+                Container(
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8),
+                  height: 160,
+                  width: 160,
+                  color: Color(0xFFFF5722),
+                ),
 
                 // Biyografi
                 Padding(
@@ -158,7 +164,10 @@ class _ShareViewState extends State<ShareView> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
-                              child: Icon(Icons.download_rounded, color: Colors.white),
+                              child: Icon(
+                                Icons.download_rounded,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
 

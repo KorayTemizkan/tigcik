@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:knitting_app/controllers/url_launcher_controller.dart';
+import 'package:knitting_app/controllers/widgets/dialog_button.dart';
 
 class MiniInfoCard extends StatelessWidget {
   final IconData icon;
@@ -19,7 +21,13 @@ class MiniInfoCard extends StatelessWidget {
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
-        onTap: () => context.go('/search/${onTap}'),
+        onTap: () {
+          if (onTap == 'wp') {
+            DialogButton(context);
+          } else {
+            context.go('/search/${onTap}');
+          }
+        },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),

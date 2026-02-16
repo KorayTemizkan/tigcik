@@ -27,6 +27,7 @@ import 'package:knitting_app/views/profile_view/share_view.dart';
 import 'package:knitting_app/views/profile_view/unfinisheds_view.dart';
 import 'package:knitting_app/views/search_view/search_view.dart';
 import 'package:knitting_app/views/settings_view/about_us_view.dart';
+import 'package:knitting_app/views/settings_view/notifications_view.dart';
 import 'package:knitting_app/views/settings_view/privacy_policy_view.dart';
 import 'package:knitting_app/views/settings_view/release_notes_view.dart';
 import 'package:knitting_app/views/settings_view/settings_view.dart';
@@ -83,6 +84,9 @@ class AppRoutes {
 
   // GENEL AYARLAR
   static const String onboarding = '/onboarding';
+
+  // BİLDİRİMLER
+  static const String notifications = '/notifications';
 }
 
 final router = GoRouter(
@@ -111,6 +115,11 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutes.onboarding,
       builder: (context, state) => OnboardingView(),
+    ),
+
+    GoRoute(
+      path: AppRoutes.notifications,
+      builder: (context, state) => NotificationsView(),
     ),
 
     _bottomBar(),
@@ -260,7 +269,7 @@ StatefulShellRoute _bottomBar() {
                 path: AppRoutes.editProfile,
                 builder: (context, state) => EditProfileView(),
               ),
-              
+
               GoRoute(
                 path: AppRoutes.share,
                 builder: (context, state) => ShareView(),

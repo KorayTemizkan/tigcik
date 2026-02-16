@@ -114,6 +114,15 @@ class PostCard extends StatelessWidget {
                   iconSize: 24,
                 ),
                 Text('127'),
+
+                Spacer(),
+
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.bookmark_border),
+                  color: Color(0xFFFF5722),
+                  iconSize: 24,
+                ),
               ],
             ),
           ],

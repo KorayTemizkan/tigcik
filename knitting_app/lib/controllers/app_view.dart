@@ -40,7 +40,7 @@ class AppView extends StatelessWidget {
             destinations: [
               _menuItem(context, icon: Icons.home, label: 'Ana Sayfa'),
               _menuItem(context, icon: Icons.search, label: 'Keşfet'),
-              _menuItem(context, icon: Icons.import_contacts, label: 'Eğitim'),
+              _menuItem(context, icon: Icons.menu_book_outlined, label: 'Eğitim'),
               _menuItem(context, icon: Icons.groups, label: 'Topluluk'),
               _menuItem(context, icon: Icons.account_circle, label: 'Profil'),
             ],

@@ -31,32 +31,6 @@ class _SearchViewState extends State<ExploreView> {
   final TextEditingController messageController = TextEditingController();
   int selectedIndex = 0;
 
-  Future<void> _showMyDialog() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Merhaba teyzecim'),
-          content: Text('''
-Senin yazılımcı oğlun ya da kızın varsa Allah rızası için onlara şunu iletir misin?
-Kızım ben telefona bir şey indirdim örgü filan öğreniyorum çok beğendim. Bunu yapan oğlan da staj arıyormuş
-Allah rızası için filan diyor. Yardımcı olur musun kurban oldluğum.
-'''),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Sordun di mi?'),
-            ),
-            TextButton(
-              //onPressed: () => openWhatsAppSupport(),
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Allah rızası için sor'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +66,10 @@ Allah rızası için filan diyor. Yardımcı olur musun kurban oldluğum.
                 title: 'Akıllı Tığcık',
                 onTap: 'ai',
               ),
-              //   MiniInfoCard(icon: Icons.question_answer, title: 'Soru Sor', onTap: ,),
+              MiniInfoCard(
+                icon: Icons.question_answer,
+                title: 'Soru Sor',
+                onTap: 'wp'),
             ],
           ),
 
